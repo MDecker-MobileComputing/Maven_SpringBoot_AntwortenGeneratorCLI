@@ -17,7 +17,7 @@
 	<artifactId>antwortengenerator</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<name>antwortengenerator</name>
+	<name>Antwortengenerator mit KI</name>
 	<description>Antworten für Single-Choice-Frage mit KI generieren</description>
 	<inceptionYear>2026</inceptionYear>
 
@@ -29,6 +29,7 @@
 
 	<dependencies>
 
+		<!-- Abhängigkeit in start.spring.io: "Google GenAI" -->
 		<dependency>
 			<groupId>org.springframework.ai</groupId>
 			<artifactId>spring-ai-starter-model-google-genai</artifactId>
