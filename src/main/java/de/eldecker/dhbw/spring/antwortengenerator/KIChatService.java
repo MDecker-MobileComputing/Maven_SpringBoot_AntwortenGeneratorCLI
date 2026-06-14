@@ -1,6 +1,7 @@
 package de.eldecker.dhbw.spring.antwortengenerator;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,12 +25,23 @@ public class KIChatService {
     	_chatClient = geminiChatClientBuilder.build();
     }
     
-    final String prompt1 = """ 
+    /** Prompt 1, um die richtige Antwort zu erhalten. */
+    final String promptFuerRichtigeAntwort = 
+    		               """ 
   		                   Gibt mir die richtige Antwort für die folgende Frage zurück. 
   		                   Die Antwort soll möglichst knapp sein, so dass sie als Antwortoption
   		                   für eine Single-Choice-Frage verwendet werden kann.
                            Die Frage lautet: 
      		               """;
+    
+    /** Prompt 2, um eine falsche Antwort zu erhalten. */
+    final String promptFuerFalscheAntwort = 
+    		               """
+    		               Erzeuge mit eine falsche Antwort für die folgende Frage.
+  		                   Die Antwort soll möglichst knapp sein, so dass sie als Antwortoption
+  		                   für eine Single-Choice-Frage verwendet werden kann.
+  		                   Die Frage lautet: 
+    		               """;
     
     /**
      * Antwortoptionen für {@code singleChoiceFrage} von KI erzeugen lassen.
@@ -44,12 +56,19 @@ public class KIChatService {
     public String[] antwortenErzeugen( String singleChoiceFrage ) 
     											throws AntwortenException {
     	
-    	final String antwortRichtig = 
+    	final String antwortRichtigString = 
     			_chatClient.prompt()
-    	                   .user( prompt1 + singleChoiceFrage )
+    	                   .user( promptFuerRichtigeAntwort + singleChoiceFrage )
+    	           		   .call()
+    	           		   .content();
+    	
+    	final String falscheAntwortString = 
+    			_chatClient.prompt()
+    		               .user( promptFuerFalscheAntwort + singleChoiceFrage  )
+    		               //.options(opts -> opts.param("candidateCount", 4))
     	           		   .call()
     	           		   .content();
         
-    	return new String[]{ antwortRichtig };
+    	return new String[]{ antwortRichtigString, falscheAntwortString };
     }
 }
