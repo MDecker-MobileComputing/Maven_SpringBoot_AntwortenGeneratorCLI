@@ -79,8 +79,8 @@ public class KIChatService {
 
 		final int anzahlGesamtAntworten = ANZAHL_FALSCHE_ANTWORTEN + 1;
 		final String prompt =
-				PROMPT_TEMPLATE.replace( "{{ANZAHL_GESAMT}}", Integer.toString( anzahlGesamtAntworten    ) )
-				               .replace( "{{ANZAHL_FALSCH}}", Integer.toString( ANZAHL_FALSCHE_ANTWORTEN ) )
+				PROMPT_TEMPLATE.replace( "{{ANZAHL_GESAMT}}", anzahlGesamtAntworten    + "" )
+				               .replace( "{{ANZAHL_FALSCH}}", ANZAHL_FALSCHE_ANTWORTEN + "" )
 				               .replace( "{{FRAGE}}", singleChoiceFrage );
     	try {
     	
