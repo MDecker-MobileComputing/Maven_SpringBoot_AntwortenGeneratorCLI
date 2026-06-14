@@ -3,6 +3,8 @@ package de.eldecker.dhbw.spring.antwortengenerator;
 import java.util.List;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.google.genai.GoogleGenAiChatOptions;
+import org.springframework.ai.google.genai.GoogleGenAiChatOptions.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,14 @@ public class KIChatService {
 	
 	/** Gesamtanzahl der Antworten, die für einen Request von KI zurückgegeben werden soll. */ 
 	private final int ANZAHL_ANTWORTEN_GESAMT = ANZAHL_FALSCHE_ANTWORTEN + 1; 
+	
+	/** 
+	 * Option-Builder-Objekt, um in Datei {@code application.properties} gesetztes Gemini-Modell
+	 * zu überschreiben. 
+	 */
+	private static final Builder OPTIONS_BUILDER_MODELL = 
+							GoogleGenAiChatOptions.builder().model( "gemini-3.1-pro-preview" );
+	
 	
     /** 
      * Vorlage für Prompt.
@@ -100,9 +110,10 @@ public class KIChatService {
 				_promptTemplate.replace( "{{FRAGE}}", singleChoiceFrage ); 
 
     	try {
-    	
+    		    		    	
 			final String antwortVonKiString = _chatClient.prompt() 										
 												         .user( prompt )
+												         //.options( OPTIONS_BUILDER_MODELL )
 												         .call()
 												         .content();
 
