@@ -17,10 +17,17 @@ import tools.jackson.databind.ObjectMapper;
 public class KIChatService {
 	
 	/** Anzahl der falschen Antworten (Distraktoren), die für jede Frage erzeugt werden sollen. */
-	final int ANZAHL_FALSCHE_ANTWORTEN = 5;
+	private final int ANZAHL_FALSCHE_ANTWORTEN = 5;
 	
-    /** Vorlage für Prompt. */
-    final static String PROMPT_TEMPLATE  = 
+	/** Gesamtanzahl der Antworten, die für einen Request von KI zurückgegeben werden soll. */ 
+	private final int ANZAHL_ANTWORTEN_GESAMT = ANZAHL_FALSCHE_ANTWORTEN + 1; 
+	
+    /** 
+     * Vorlage für Prompt.
+     * Die Anzahlwerte werden im Konstruktor ersetzt, die Frage am Ende wird für jeden
+     * Aufruf individuell ersetzt.  
+     */
+    private String _promptTemplate  = 
     		               """ 
 							Du bist ein Generator für Single-Choice-Antwortoptionen.
 							
@@ -53,12 +60,17 @@ public class KIChatService {
     
     
     /**
-     * Konstruktor für Erzeugung API-Objekt.
+     * Konstruktor: Zentrales API-Objekt erzeugen und in Prompt-Template
+     * Zahlenwerte ersetzen.  
      */
     @Autowired
     public KIChatService( ChatClient.Builder geminiChatClientBuilder ) {
     	
     	_chatClient = geminiChatClientBuilder.build();
+    	    	
+		_promptTemplate =
+				_promptTemplate.replace( "{{ANZAHL_GESAMT}}", ANZAHL_ANTWORTEN_GESAMT  + "" )
+				               .replace( "{{ANZAHL_FALSCH}}", ANZAHL_FALSCHE_ANTWORTEN + "" );
     }
     
 
@@ -77,11 +89,8 @@ public class KIChatService {
 	public String[] antwortenErzeugen( String singleChoiceFrage  )
 											throws AntwortenException {
 
-		final int anzahlGesamtAntworten = ANZAHL_FALSCHE_ANTWORTEN + 1;
-		final String prompt =
-				PROMPT_TEMPLATE.replace( "{{ANZAHL_GESAMT}}", anzahlGesamtAntworten    + "" )
-				               .replace( "{{ANZAHL_FALSCH}}", ANZAHL_FALSCHE_ANTWORTEN + "" )
-				               .replace( "{{FRAGE}}", singleChoiceFrage );
+		final String prompt = _promptTemplate.replace( "{{FRAGE}}", singleChoiceFrage ); 
+
     	try {
     	
 			final String antwortVonKiString = 
@@ -109,7 +118,7 @@ public class KIChatService {
 				System.out.println( warnText );
 			}
 
-			final String[] ergebnisArray = new String[ anzahlGesamtAntworten ];
+			final String[] ergebnisArray = new String[ ANZAHL_FALSCHE_ANTWORTEN + 1 ];
 			ergebnisArray[ 0 ] = antwortOptionen.correct();
 			for ( int i = 0; i < falscheAntwortenListe.size(); i++ ) {
 
