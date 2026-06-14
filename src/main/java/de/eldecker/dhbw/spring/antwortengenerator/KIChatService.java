@@ -1,11 +1,6 @@
 package de.eldecker.dhbw.spring.antwortengenerator;
 
-import java.util.List;
-
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.model.ChatResponse;
-import org.springframework.ai.chat.model.Generation;
-import org.springframework.ai.google.genai.GoogleGenAiChatOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,24 +12,7 @@ import tools.jackson.databind.ObjectMapper;
  */
 @Service
 public class KIChatService {
-
-	/** Zentrales API-Objekt für Kommunikation mit KI. */
-    private final ChatClient _chatClient;
-
-    /** Für Deserialisierung von JSON benötigt. */
-    private ObjectMapper _objectMapper = new ObjectMapper();
-    
-    
-    /**
-     * Konstruktor für Erzeugung API-Objekt.
-     */
-    @Autowired
-    public KIChatService( ChatClient.Builder geminiChatClientBuilder ) {
-    	
-    	_chatClient = geminiChatClientBuilder.build();
-    }
-    
-    
+	
     /** Vorlage für Prompt. */
     final static String PROMPT_TEMPLATE  = 
     		               """ 
@@ -60,7 +38,24 @@ public class KIChatService {
 							Frage:
 							{{FRAGE}}
      		               """;
+
+	/** Zentrales API-Objekt für Kommunikation mit KI. */
+    private final ChatClient _chatClient;
+
+    /** Für Deserialisierung von JSON benötigt. */
+    private ObjectMapper _objectMapper = new ObjectMapper();
     
+    
+    /**
+     * Konstruktor für Erzeugung API-Objekt.
+     */
+    @Autowired
+    public KIChatService( ChatClient.Builder geminiChatClientBuilder ) {
+    	
+    	_chatClient = geminiChatClientBuilder.build();
+    }
+    
+        
     /**
      * Antwortoptionen für {@code singleChoiceFrage} von KI erzeugen lassen.
      * 
