@@ -79,6 +79,10 @@ public class KIChatService {
 
 	/**
 	 * Antwortoptionen für {@code singleChoiceFrage} von KI erzeugen lassen.
+	 * <br><br>
+	 * 
+	 * Abfrage verbrauchte Token wäre auch möglich:
+	 * https://gist.github.com/MDecker-MobileComputing/874c8f6efae3e37e6873b09abea8672a
 	 *
 	 * @param singleChoiceFrage Frage, für die Single-Choice-Antworten
 	 *
