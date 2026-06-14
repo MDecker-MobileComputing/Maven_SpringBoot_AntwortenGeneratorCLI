@@ -8,6 +8,11 @@ angebundene KI (LLM) richtige und falsche Antwortoptionen erzeugen lässt.
 
 <br>
 
+Vor Ausführung muss in der Datei [apikey.properties](src/main/resources/apikey.properties)
+ein gütliger API-Key für Gemini eingetragen werden.
+
+<br>
+
 ![Screenshot](screenshot_1.png)
 
 <br>
