@@ -28,29 +28,29 @@ public class KIChatService {
      * Aufruf individuell ersetzt.  
      */
     private String _promptTemplate  = 
-    		               """ 
-							Du bist ein Generator für Single-Choice-Antwortoptionen.
-							
-							Aufgabe:
-							Erzeuge zu der folgenden Frage genau {{ANZAHL_GESAMT}} Antwortoptionen:
-							- 1 richtige Antwort
-							- {{ANZAHL_FALSCH}} falsche, aber plausible Distraktoren
-							
-							Regeln:
-							- Alle Antworten kurz halten (max. 12 Wörter).
-							- Keine Nummerierung, keine Erklärungen, kein Markdown.
-							- Alle Antworten müssen unterschiedlich sein.
-							- Die falschen Antworten dürfen nicht offensichtlich absurd sein.
-							- Antworte ausschließlich mit gültigem JSON nach diesem Schema:
-							
-							{
-							  "correct": "string",
-							  "wrong": ["string", "string", "..."]
-							}
-							
-							Frage:
-							{{FRAGE}}
-     		               """;
+       """ 
+		Du bist ein Generator für Single-Choice-Antwortoptionen.
+		
+		Aufgabe:
+		Erzeuge zu der folgenden Frage genau {{ANZAHL_GESAMT}} Antwortoptionen:
+		- 1 richtige Antwort
+		- {{ANZAHL_FALSCH}} falsche, aber plausible Distraktoren
+		
+		Regeln:
+		- Alle Antworten kurz halten (max. 12 Wörter).
+		- Keine Nummerierung, keine Erklärungen, kein Markdown.
+		- Alle Antworten müssen unterschiedlich sein.
+		- Die falschen Antworten dürfen nicht offensichtlich absurd sein.
+		- Antworte ausschließlich mit gültigem JSON nach diesem Schema:
+		
+		{
+		  "correct": "string",
+		  "wrong": ["string", "string", "..."]
+		}
+		
+		Frage:
+		{{FRAGE}}
+       """;
 
 	/** Zentrales API-Objekt für Kommunikation mit KI. */
     private final ChatClient _chatClient;
@@ -68,9 +68,12 @@ public class KIChatService {
     	
     	_chatClient = geminiChatClientBuilder.build();
     	    	
+    	final String anzGesamtStr = ANZAHL_ANTWORTEN_GESAMT  + "";
+    	final String anzFalschStr = ANZAHL_FALSCHE_ANTWORTEN + "";
+    	
 		_promptTemplate =
-				_promptTemplate.replace( "{{ANZAHL_GESAMT}}", ANZAHL_ANTWORTEN_GESAMT  + "" )
-				               .replace( "{{ANZAHL_FALSCH}}", ANZAHL_FALSCHE_ANTWORTEN + "" );
+			_promptTemplate.replace( "{{ANZAHL_GESAMT}}", anzGesamtStr )
+			               .replace( "{{ANZAHL_FALSCH}}", anzFalschStr );
     }
     
 
@@ -89,18 +92,19 @@ public class KIChatService {
 	public String[] antwortenErzeugen( String singleChoiceFrage  )
 											throws AntwortenException {
 
-		final String prompt = _promptTemplate.replace( "{{FRAGE}}", singleChoiceFrage ); 
+		final String prompt = 
+				_promptTemplate.replace( "{{FRAGE}}", singleChoiceFrage ); 
 
     	try {
     	
-			final String antwortVonKiString = 
-					_chatClient.prompt()
-							.user( prompt )
-							.call()
-							.content();
+			final String antwortVonKiString = _chatClient.prompt() 										
+												         .user( prompt )
+												         .call()
+												         .content();
 
 			final AntwortOptionenRecord antwortOptionen = 
-					_objectMapper.readValue( antwortVonKiString, AntwortOptionenRecord.class );
+					_objectMapper.readValue( antwortVonKiString, 
+							                 AntwortOptionenRecord.class );
 
 			final List<String> falscheAntwortenListe = antwortOptionen.wrong();
 			if ( falscheAntwortenListe == null ) {
@@ -118,7 +122,7 @@ public class KIChatService {
 				System.out.println( warnText );
 			}
 
-			final String[] ergebnisArray = new String[ ANZAHL_FALSCHE_ANTWORTEN + 1 ];
+			final String[] ergebnisArray = new String[ falscheAntwortenListe.size() + 1 ];
 			ergebnisArray[ 0 ] = antwortOptionen.correct();
 			for ( int i = 0; i < falscheAntwortenListe.size(); i++ ) {
 
