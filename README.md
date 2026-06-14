@@ -8,6 +8,10 @@ angebundene KI (LLM) richtige und falsche Antwortoptionen erzeugen lässt.
 
 <br>
 
+![Screenshot](screenshot_1.png)
+
+<br>
+
 ----
 
 ## License ##

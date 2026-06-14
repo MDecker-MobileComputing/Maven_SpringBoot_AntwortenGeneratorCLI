@@ -52,12 +52,12 @@ public class AntwortenGeneratorCmdLineRunner implements CommandLineRunner {
 				final String antwortenArray[] = 
 						_kiChatService.antwortenErzeugen( frage );
 				
-				System.out.println( "Richtige Antwort: " + antwortenArray[0] );
+				System.out.println( "\tRichtige Antwort: " + antwortenArray[0] );
 
-				System.out.println( "Falsche Antworten: " );
+				System.out.println( "\tFalsche Antworten: " );
 				for ( int i = 1; i < antwortenArray.length; i++ ) {
 				
-					System.out.println( "   " + antwortenArray[i] );
+					System.out.println( "\t\t" + antwortenArray[i] );
 				}
 			}
 			catch ( AntwortenException ex ) {

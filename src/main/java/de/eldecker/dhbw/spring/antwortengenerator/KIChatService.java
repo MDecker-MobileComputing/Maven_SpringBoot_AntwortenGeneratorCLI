@@ -16,6 +16,9 @@ import tools.jackson.databind.ObjectMapper;
 @Service
 public class KIChatService {
 	
+	/** Anzahl der falschen Antworten (Distraktoren), die für jede Frage erzeugt werden sollen. */
+	final int ANZAHL_FALSCHE_ANTWORTEN = 5;
+	
     /** Vorlage für Prompt. */
     final static String PROMPT_TEMPLATE  = 
     		               """ 
@@ -58,9 +61,6 @@ public class KIChatService {
     	_chatClient = geminiChatClientBuilder.build();
     }
     
-       
-
-	final int ANZAHL_FALSCHE_ANTWORTEN = 5;
 
 	/**
 	 * Antwortoptionen für {@code singleChoiceFrage} von KI erzeugen lassen.
@@ -77,7 +77,6 @@ public class KIChatService {
 	public String[] antwortenErzeugen( String singleChoiceFrage  )
 											throws AntwortenException {
 
-    	
 		final int anzahlGesamtAntworten = ANZAHL_FALSCHE_ANTWORTEN + 1;
 		final String prompt =
 				PROMPT_TEMPLATE.replace( "{{ANZAHL_GESAMT}}", Integer.toString( anzahlGesamtAntworten    ) )
