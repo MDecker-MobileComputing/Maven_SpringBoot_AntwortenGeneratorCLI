@@ -25,12 +25,13 @@ public class KIChatService {
 	private final int ANZAHL_ANTWORTEN_GESAMT = ANZAHL_FALSCHE_ANTWORTEN + 1; 
 	
 	/** 
-	 * Option-Builder-Objekt, um in Datei {@code application.properties} gesetztes Gemini-Modell
-	 * zu überschreiben. 
+	 * Option-Builder-Objekt, um in Datei {@code application.properties} gesetzte Gemini-Parameter
+	 * (Modell-Name und Temperatur) zu überschreiben. 
 	 */
-	private static final Builder OPTIONS_BUILDER_MODELL = 
-							GoogleGenAiChatOptions.builder().model( "gemini-3.1-pro-preview" );
-	
+	private static final Builder BUILDER_CUSTOM_OPTIONS = 
+							GoogleGenAiChatOptions.builder()
+							                      .model( "gemini-3.1-pro-preview" )
+							                      .temperature( 0.9 );	
 	
     /** 
      * Vorlage für Prompt.
@@ -113,7 +114,7 @@ public class KIChatService {
     		    		    	
 			final String antwortVonKiString = _chatClient.prompt() 										
 												         .user( prompt )
-												         //.options( OPTIONS_BUILDER_MODELL )
+												         //.options( BUILDER_CUSTOM_OPTIONS )
 												         .call()
 												         .content();
 
