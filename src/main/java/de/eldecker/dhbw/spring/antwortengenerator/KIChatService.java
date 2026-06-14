@@ -1,7 +1,11 @@
 package de.eldecker.dhbw.spring.antwortengenerator;
 
+import java.util.List;
+
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.ai.chat.model.Generation;
+import org.springframework.ai.google.genai.GoogleGenAiChatOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -61,14 +65,28 @@ public class KIChatService {
     	                   .user( promptFuerRichtigeAntwort + singleChoiceFrage )
     	           		   .call()
     	           		   .content();
+
     	
-    	final String falscheAntwortString = 
+    	final GoogleGenAiChatOptions.Builder optionsBuilder =
+    	        GoogleGenAiChatOptions.builder().candidateCount(3);
+    	
+    	final ChatResponse chatResponse = 
     			_chatClient.prompt()
     		               .user( promptFuerFalscheAntwort + singleChoiceFrage  )
-    		               //.options(opts -> opts.param("candidateCount", 4))
+			               .options( optionsBuilder )
     	           		   .call()
-    	           		   .content();
+    	           		   .chatResponse();
+    	
+    	final List<String> falscheAntwortenList = 
+    			chatResponse.getResults().stream()
+					        .map(Generation::getOutput)
+					        .map(assistantMessage -> assistantMessage.getText())
+			    		    .toList();
         
-    	return new String[]{ antwortRichtigString, falscheAntwortString };
+    	return new String[]{ antwortRichtigString, 
+    						 falscheAntwortenList.get(0),
+    						 falscheAntwortenList.get(1), 
+    						 falscheAntwortenList.get(2)
+    					   };
     }
 }
