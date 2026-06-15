@@ -3,7 +3,7 @@ name: FatJar bauen
 on:
   push:
     branches: [ "master" ]
-  workflow_dispatch:  
+  workflow_dispatch:
 
 jobs:
   job-fatjar:
@@ -24,7 +24,7 @@ jobs:
     - name: FatJar-Datei veröffentlichen
       uses: actions/upload-artifact@v7.0.1
       with:
-        name: BlogCMS_FatJar
+        name: AntwortenGenerator_FatJar
         path: target/blog-*-SNAPSHOT.jar
         if-no-files-found: error
         retention-days: 3
