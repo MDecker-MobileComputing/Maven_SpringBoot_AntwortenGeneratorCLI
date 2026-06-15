@@ -68,7 +68,7 @@ public class KIChatService {
     private final ChatClient _chatClient;
 
     /** Für Deserialisierung von JSON benötigt. */
-    private ObjectMapper _objectMapper = new ObjectMapper();
+    private final ObjectMapper _objectMapper = new ObjectMapper();
     
     
     /**
