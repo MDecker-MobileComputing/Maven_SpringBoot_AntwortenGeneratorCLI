@@ -1,4 +1,4 @@
-package de.eldecker.dhbw.spring.antwortengenerator;
+package de.eldecker.dhbw.spring.antwortengenerator.engine;
 
 import java.util.List;
 
@@ -28,6 +28,7 @@ public class KIChatService {
 	 * Option-Builder-Objekt, um in Datei {@code application.properties} gesetzte Gemini-Parameter
 	 * (Modell-Name und Temperatur) zu überschreiben. 
 	 */
+	@SuppressWarnings("unused")
 	private static final Builder BUILDER_CUSTOM_OPTIONS = 
 							GoogleGenAiChatOptions.builder()
 							                      .model( "gemini-3.1-pro-preview" )

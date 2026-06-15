@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import de.eldecker.dhbw.spring.antwortengenerator.engine.AntwortenException;
+import de.eldecker.dhbw.spring.antwortengenerator.engine.KIChatService;
+
 
 @Component
 public class AntwortenGeneratorCmdLineRunner implements CommandLineRunner {

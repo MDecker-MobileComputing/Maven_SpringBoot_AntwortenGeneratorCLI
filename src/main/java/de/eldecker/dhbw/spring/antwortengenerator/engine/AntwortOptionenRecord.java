@@ -1,4 +1,4 @@
-package de.eldecker.dhbw.spring.antwortengenerator;
+package de.eldecker.dhbw.spring.antwortengenerator.engine;
 
 import java.util.List;
 
