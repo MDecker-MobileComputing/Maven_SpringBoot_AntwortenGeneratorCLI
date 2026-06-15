@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project 
-	xmlns="http://maven.apache.org/POM/4.0.0" 
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
@@ -23,8 +23,16 @@
 
 
 	<properties>
+
 		<java.version>21</java.version>
 		<spring-ai.version>2.0.0-RC2</spring-ai.version>
+
+		<!--
+			Unit-Tests überspringen, weil es keine gibt und sonst der Maven-Prozess
+			blockiert, weil er auf Eingabe von STDIN wartet.
+		 -->
+		<maven.test.skip>true</maven.test.skip>
+
 	</properties>
 
 	<dependencies>

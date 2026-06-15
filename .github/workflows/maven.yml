@@ -25,6 +25,6 @@ jobs:
       uses: actions/upload-artifact@v7.0.1
       with:
         name: AntwortenGenerator_FatJar
-        path: target/blog-*-SNAPSHOT.jar
+        path: target/antwortengenerator-*-SNAPSHOT.jar
         if-no-files-found: error
         retention-days: 3
