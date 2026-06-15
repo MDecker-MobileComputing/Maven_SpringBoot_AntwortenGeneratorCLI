@@ -79,7 +79,8 @@ public class KIChatService {
     public KIChatService( ChatClient.Builder geminiChatClientBuilder ) {
     	
     	_chatClient = geminiChatClientBuilder.build();
-    	    	
+
+
     	final String anzGesamtStr = ANZAHL_ANTWORTEN_GESAMT  + "";
     	final String anzFalschStr = ANZAHL_FALSCHE_ANTWORTEN + "";
     	
