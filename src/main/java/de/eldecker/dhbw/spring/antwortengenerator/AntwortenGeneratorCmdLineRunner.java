@@ -11,6 +11,9 @@ import de.eldecker.dhbw.spring.antwortengenerator.engine.AntwortenException;
 import de.eldecker.dhbw.spring.antwortengenerator.engine.KIChatService;
 
 
+/**
+ * Klasse mit interaktiver Text-UI.  
+ */
 @Component
 public class AntwortenGeneratorCmdLineRunner implements CommandLineRunner {
 
@@ -66,10 +69,8 @@ public class AntwortenGeneratorCmdLineRunner implements CommandLineRunner {
 			catch ( AntwortenException ex ) {
 				
 				System.out.println( "Fehler: " +ex.getMessage() );
-			}
-			
-		}
-			
+			}			
+		}		
 	}
 
 	/**

@@ -32,8 +32,7 @@ public class KIChatService {
 	private static final Builder BUILDER_CUSTOM_OPTIONS = 
 							GoogleGenAiChatOptions.builder()
 							                      .model( "gemini-3.1-pro-preview" )
-							                      .temperature( 0.9 );	
-	
+							                      .temperature( 0.9 ); // "Kreativitätsfaktor"
     /** 
      * Vorlage für Prompt.
      * Die Anzahlwerte werden im Konstruktor ersetzt, die Frage am Ende wird für jeden
