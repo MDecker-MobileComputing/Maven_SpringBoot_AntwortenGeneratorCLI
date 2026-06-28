@@ -2,7 +2,7 @@
 
 <br>
 
-Dieses Repository enthält eine mit Spring Boot implementierte Konsolen-Anwendung, 
+Dieses Repository enthält eine mit *Spring Boot* implementierte Konsolen-Anwendung, 
 die eine Single-Choice-Frage einliest und dann von einer über [Spring AI](https://spring.io/projects/spring-ai)
 angebundene KI (LLM) richtige und falsche Antwortoptionen erzeugen lässt.
 
